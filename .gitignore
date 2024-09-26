@@ -1,0 +1,33 @@
+# Go build artifacts
+/bin/
+/build/
+/*.exe
+/*.out
+/*.test
+*.log
+*.o
+*.a
+*.so
+
+
+# Editor or IDE related files
+*.swp
+*.swo
+*.bak
+*~
+*.tmp
+# *.vscode/
+.idea/
+.DS_Store
+
+# Go dependency directories
+/vendor/
+/pkg/
+
+# Log and test result files
+*.log
+*.test
+
+
+# Docker-related files
+docker-compose.override.yml
