@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -17,20 +16,18 @@ import (
 func main() {
 
 	// Load environment variables
-	fmt.Println("sadsad==>", os.Getenv("GO_ENV"))
-	log.Print("heree", os.Getenv("GO_ENV"))
-	if os.Getenv("GO_ENV") != "TEST" {
-		err := godotenv.Load(".env")
-		if err != nil {
-			log.Fatalf("Error loading .env file0")
-		}
-	} else {
-		err := godotenv.Load(".env.test")
-		if err != nil {
-			log.Fatalf("Error loading .env test file")
-		}
-	}
 
+	// if os.Getenv("GO_ENV") != "TEST" {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("Error loading .env file0")
+	}
+	// } else {
+	// 	err := godotenv.Load(".envtest")
+	// 	if err != nil {
+	// 		log.Fatalf("Error loading .env test file")
+	// 	}
+	// })
 	// Get the application port from the environment variable
 	appPort := os.Getenv("APP_PORT")
 	if appPort == "" {

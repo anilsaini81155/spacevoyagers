@@ -8,7 +8,6 @@ import (
 	"sync"
 
 	_ "github.com/go-sql-driver/mysql" // MySQL driver
-	"github.com/joho/godotenv"
 )
 
 var (
@@ -17,28 +16,9 @@ var (
 	dbErr    error
 )
 
-// LoadEnv loads environment variables from the .env file
-func LoadEnv() {
-	if os.Getenv("GO_ENV") != "TEST" {
-		err := godotenv.Load("../.env")
-		if err != nil {
-			log.Fatalf("Error loading .env file1")
-		}
-	} else {
-		err := godotenv.Load("../.envtest")
-		if err != nil {
-			log.Fatalf("Error loading .env file2", err)
-		}
-	}
-
-}
-
 // GetDB returns the singleton instance of the database connection
 func GetDB() (*sql.DB, error) {
 	once.Do(func() {
-
-		// Load environment variables from the .env file
-		LoadEnv()
 
 		// Get database connection parameters from environment variables
 		dbHost := os.Getenv("DB_HOST")
