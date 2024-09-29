@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch file",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/main.go",  // Specify the path to your main.go file
+            "envFile": "${workspaceFolder}/.env",  // Ensure correct path to your env file
+            "args": [],  // You can pass additional arguments if necessary
+            "showLog": true,
+            // "dlvToolPath": "${workspaceFolder}/bin/dlv", // Optional: Provide the path to Delve if needed
+            "dlvFlags": ["--check-go-version=false"]
+        }
+    ]
+}
