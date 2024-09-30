@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/anilsaini81155/spacevoyagers/db"
 	"github.com/anilsaini81155/spacevoyagers/handlers"
@@ -11,6 +12,7 @@ import (
 	"github.com/anilsaini81155/spacevoyagers/models"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
+	"golang.org/x/time/rate"
 )
 
 func main() {
@@ -44,6 +46,7 @@ func main() {
 
 	// Run migrations (create tables)
 	models.RunMigrations()
+	limiter := rate.NewLimiter(rate.Every(1*time.Minute), 1) // 1 request every 60 seconds
 
 	// Create a new Gorilla Mux router
 	r := mux.NewRouter()
@@ -53,7 +56,9 @@ func main() {
 	r.Use(middleware.CORSMiddleware)    // Use CORS middleware
 
 	r.HandleFunc("/exoplanets", handlers.CreateExoplanet).Methods("POST")
-	r.HandleFunc("/exoplanets", handlers.ListExoplanets).Methods("GET")
+	// r.HandleFunc("/exoplanets", handlers.ListExoplanets).Methods("GET")
+	r.Handle("/exoplanets", middleware.RateLimiterMiddleware(limiter)(http.HandlerFunc(handlers.ListExoplanets))).Methods("GET")
+
 	r.HandleFunc("/exoplanets/{id}", handlers.GetExoplanetByID).Methods("GET")
 	r.HandleFunc("/exoplanets/{id}", handlers.UpdateExoplanet).Methods("PUT")
 	r.HandleFunc("/exoplanets/{id}", handlers.DeleteExoplanet).Methods("DELETE")
