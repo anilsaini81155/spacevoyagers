@@ -4,6 +4,14 @@ go mod tidy
 go build
 go run main.go
 
+## steps to run the application using docker 
+
+docker build -t spacevoyagers .
+
+docker run -d -p 8080:8080 spacevoyagers
+
+
+
 ### SAMPLE CURLS
 
 1)POST
