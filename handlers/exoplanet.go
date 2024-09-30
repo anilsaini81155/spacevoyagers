@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/anilsaini81155/spacevoyagers/factory"
 	"github.com/anilsaini81155/spacevoyagers/models"
 	"github.com/gorilla/mux"
 )
@@ -29,7 +30,13 @@ func CreateExoplanet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := models.AddExoplanet(&exoplanet); err != nil {
+	exoplanetData, err := factory.CreateExoplanet(string(exoplanet.Type), exoplanet.Name, exoplanet.Description, exoplanet.Distance, exoplanet.Radius, exoplanet.Mass)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	if err := models.AddExoplanet(&exoplanetData); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
